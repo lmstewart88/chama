@@ -2,7 +2,7 @@
 
 Single Soroban contract for the hackathon MVP. Everyone codes against this file. Do not change it without telling the other two.
 
-**Changelog (25 Oct, evening):** added a supplier allowlist (`add_supplier`, `is_supplier`, `SupplierNotApproved`). Removed the agent and x402 from the MVP (roadmap only). Clarified that `spend` stays allowed for approved tranches after a rejection. The fee is UI-only and is not in the contract.
+**Changelog (25 Oct, evening):** added a supplier allowlist (`add_supplier`, `is_supplier`, `SupplierNotApproved`). Removed the agent and x402 from the MVP (roadmap only). Clarified that `spend` stays allowed for approved tranches after a rejection. The fee is UI-only and is not in the contract. Also added `get_config`, `get_milestone_count` and a rule that `get_refundable` returns 0 unless the pool has failed and the address has not claimed.
 
 **Purpose:** a pool funds a project (for example a cold-storage unit for an SME). A separate verifier wallet releases the money in tranches. Released money stays in the contract and can only be spent through `spend`, to supplier wallets registered by the admin and within per-category caps. If the verifier rejects a milestone, contributors get back their share of what was never released.
 
@@ -93,12 +93,54 @@ get_cap(idx, category) -> i128
 get_spent(idx, category) -> i128
 get_remaining(idx, category) -> i128      // cap minus spent
 is_supplier(addr) -> bool
+get_config() -> (admin, verifier, recipient, token)   // lets the UI show who holds each role
+get_milestone_count() -> u32
+```
+
+- `get_refundable(addr)` returns 0 unless status is `Failed` and the address has not yet claimed, so the UI can show "Refunded" or "Nothing to claim".
+- `get_cap`, `get_spent` and `get_remaining` take a category `Symbol` (demo values: `equipment`, `installation`).
+- There is no on-chain list of contributors: the UI reads `get_contribution(addr)` for the known demo wallets, and can also read `contributed` events.
+
+```
 get_refundable(addr) -> i128
 ```
 
 ## Errors (contracterror)
 
 `NotInitialized, BadConfig, WrongStatus, ZeroAmount, Overshoot, NotInOrder, CapExceeded, NotApproved, AlreadyRefunded, NothingToRefund, CapsTooLarge, SupplierNotApproved`
+
+## Error numbers (fixed now, do not renumber)
+
+Define the enum with explicit values so the frontend can map `Error(Contract, #N)` straight away:
+
+```rust
+#[contracterror]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord)]
+#[repr(u32)]
+pub enum Error {
+    NotInitialized = 1,
+    BadConfig = 2,
+    WrongStatus = 3,
+    ZeroAmount = 4,
+    Overshoot = 5,
+    NotInOrder = 6,
+    CapExceeded = 7,
+    NotApproved = 8,
+    AlreadyRefunded = 9,
+    NothingToRefund = 10,
+    CapsTooLarge = 11,
+    SupplierNotApproved = 12,
+}
+```
+
+**Order of checks (so the same input always gives the same error):**
+
+- `contribute`: `ZeroAmount`, then `WrongStatus`, then `Overshoot`.
+- `approve_milestone` and `reject_milestone`: `WrongStatus`, then `NotInOrder`.
+- `spend`: `ZeroAmount`, then `NotApproved`, then `SupplierNotApproved`, then `CapExceeded`.
+- `refund`: `WrongStatus` (the pool has not failed), then `AlreadyRefunded`, then `NothingToRefund` (no contribution).
+- If the allowlist is cut at Gate 2, `SupplierNotApproved = 12` stays in the enum but is never returned.
+
 
 ## Events
 
