@@ -1,5 +1,20 @@
 # Chama
 
+> **Try the live app: https://chama-lovat.vercel.app/#/projects/enterprise**
+>
+> - **Live testnet app (use this one):** https://chama-lovat.vercel.app/#/projects/enterprise
+>   Reads the deployed Chama pool contract on Stellar testnet. Actions are signed by a
+>   Freighter wallet on testnet and use test USDC only. No real funds.
+> - **Earlier simulated build (backup):** the link in our submission form. It runs on mock
+>   data with no wallet and no contract. It shows the same steps, but nothing is on chain.
+>   We kept it as a failsafe in case the live app or Freighter is unavailable.
+>
+> To see the contract working without a wallet, see `scripts/demo-flow.sh` and the backup
+> video. The contract has 13 passing tests (`cargo test`), and the contract and token IDs
+> are in `.env.example`.
+>
+> The live pool is one shared testnet contract. If someone has already used it, it may show Funded or Failed instead of Open, with contributions or refunds left by earlier visitors. That is expected; the team resets it between runs.
+
 Diaspora communities already pool money for projects back home (mchango, chama, pardner, susu). Chama makes that money visible and rule-based on Stellar: contributors pool USDC into a Soroban contract to finance infrastructure for an SME, such as a cold-storage unit. A separate verifier wallet releases it in tranches, and released money can only be spent on supplier wallets approved by the admin, inside per-category caps. If a milestone is rejected, contributors get back their share of what was never released.
 
 Built for Hack Meridian Lisbon (Genesis track), 25 to 26 October 2026.
