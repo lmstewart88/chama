@@ -36,8 +36,8 @@ An earlier prototype (`lmstewart88/chama-pool`) pooled funds and released everyt
 ## Team
 
 - Backend (Soroban contract, scripts): Lydia Mangeni
-- Frontend (web app): TBD
-- Pitch and research: TBD
+- Frontend/ UX (web app): April Walker
+- Pitch and research: Gianna Shamone
 
 ## Docs
 
