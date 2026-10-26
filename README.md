@@ -15,6 +15,10 @@
 >
 > The live pool is one shared testnet contract. If someone has already used it, it may show Funded or Failed instead of Open, with contributions or refunds left by earlier visitors. That is expected; the team resets it between runs.
 
+Demo video (simulated guided demo, not on chain): https://youtu.be/cLbUqV0q44g
+
+Full explanation of what each link shows and how to verify: [docs/SUBMISSION_NOTES.md](docs/SUBMISSION_NOTES.md)
+
 Diaspora communities already pool money for projects back home (mchango, chama, pardner, susu). Chama makes that money visible and rule-based on Stellar: contributors pool USDC into a Soroban contract to finance infrastructure for an SME, such as a cold-storage unit. A separate verifier wallet releases it in tranches, and released money can only be spent on supplier wallets approved by the admin, inside per-category caps. If a milestone is rejected, contributors get back their share of what was never released.
 
 Built for Hack Meridian Lisbon (Genesis track), 25 to 26 October 2026.

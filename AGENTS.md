@@ -8,7 +8,7 @@ Chama: a Soroban contract on Stellar testnet plus a one-page web app. A USDC poo
 
 ## Folders and owners
 - `contracts/`, `scripts/`, `packages/bindings/`: backend. `packages/bindings` is generated; do not hand-edit.
-- `web/`, `agent/`: frontend.
+- `web/`: frontend.
 - `docs/`: shared.
 Stay inside your own folder.
 

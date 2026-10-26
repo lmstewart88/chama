@@ -8,7 +8,7 @@ Single Soroban contract for the hackathon MVP. Everyone codes against this file.
 
 **Units:** all amounts are in token base units (i128). Testnet USDC has 7 decimals, so 1 USDC = 10_000_000. The demo uses whole-USDC helpers in the UI.
 
-**Token:** testnet USDC SEP-41 contract. ID from Stellar's x402 docs: `CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA` (verify before use).
+**Token:** our own test USDC on Stellar testnet (a `USDC` asset issued by the admin key, deployed as a SEP-41 Stellar Asset Contract): `CCFFHHB6VMBBJWP5FWFNLTB4AUQLSTMVYTO5CN4BMU3BWACOQMLB4G6Z`. Same as `USDC_CONTRACT_ID` in `.env.example`. It is not Circle's USDC and has no value.
 
 ## Roles
 
