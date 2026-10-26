@@ -61,11 +61,13 @@ call "$CHAMA_CONTRACT_ID" admin set_caps --idx 0 \
 echo "   equipment: $(view "$CHAMA_CONTRACT_ID" get_cap --idx 0 --category equipment)"
 echo "   installation: $(view "$CHAMA_CONTRACT_ID" get_cap --idx 0 --category installation)"
 
-echo "== Writing CHAMA_CONTRACT_ID to .env"
+echo "== Writing CHAMA_CONTRACT_ID and VITE_CHAMA_CONTRACT_ID to .env"
+# Vite only exposes VITE_-prefixed variables to the web app.
 touch .env
 tmp=$(mktemp)
-grep -v '^CHAMA_CONTRACT_ID=' .env >"$tmp" || true
+grep -v -e '^CHAMA_CONTRACT_ID=' -e '^VITE_CHAMA_CONTRACT_ID=' .env >"$tmp" || true
 echo "CHAMA_CONTRACT_ID=$CHAMA_CONTRACT_ID" >>"$tmp"
+echo "VITE_CHAMA_CONTRACT_ID=$CHAMA_CONTRACT_ID" >>"$tmp"
 mv "$tmp" .env
 
 echo
